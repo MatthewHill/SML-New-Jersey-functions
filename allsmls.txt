@@ -1,0 +1,43 @@
+﻿
+fun choose 0 _ = [nil]
+=|choose _ nil = nil
+=|choose n (a::t) = (choose n t) @ map(fn x => a::x) (choose (n-1) t);		
+
+fun put a x nil = [x@[a]]
+=|put a x (b::t) = (x@(a::b::t))::put a (x@[b]) t;
+
+fun permute nil = [nil]
+=|permute(a::t) = foldr(op@) nil (map(put a nil)(permute t));
+
+		
+fun powerset nil = [nil]
+=| powerset (e::t) = (powerset t) @map (fn x => e::x) (powerset t);
+
+fun choose 0 _ = [nil]
+=|choose _ nil = nil
+=|choose n (a::t) = (choose n t) @ map(fn x => a::x) (choose (n-1) t);
+
+fun sfoldl _ a nil = a 
+| sfoldl f a (x::t) = sfoldl f (f x a ) t;
+
+fun cut a b = foldr(fn(c, d) => if c < a then c::d else d)[] b;
+
+let val c = n
+    fun count(i, a) =  if i > n then a else if Int.mod(n, i) = 0 then count(i+1, (i, n div i)::a) else count(i+1, a)
+in count (2, nil);
+
+
+fun product ( a::nil)(b::nil) = a * b
+=|product(a::A)(b::B)= a*b + product A B;
+
+fun listcon nil T = T
+| listcon (a::s)nil = [a]:: listcon s nil
+|listcon (a::s) (t::T) = (a ::t):: listcon s T;
+
+fun transport nil = nil
+|transport (r::nil) = listcon r nil
+|transport ( r :: M) = listcon r ( transport M);
+
+fun matrixMult (nil, A) = nil
+| matrixMult (s::t, A) = (map (product s) (transport A)) :: matrixMult (t,A);
+

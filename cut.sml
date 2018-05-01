@@ -1,0 +1,1 @@
+fun cut a b = foldr(fn(c, d) => if c < a then c::d else d)[] b;
